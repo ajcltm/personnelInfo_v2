@@ -1,6 +1,6 @@
 from personnelInfo.model import models
 
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, validator
 from datetime import datetime
 
@@ -13,10 +13,10 @@ class Appointment(BaseModel):
     ap_department:str
     ap_position:str
     ap_level:str
-    ap_leader_position:str
-    description:str
+    ap_leader_position:Optional[str]=None
+    description:Optional[str]=None
 
-    @validator('*', always=True)
+    @validator('*',pre=True, always=True)
     def check_none_value(cls, v, values):
         if v == 'nan':
             return None
