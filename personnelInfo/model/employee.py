@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Dict
 from pydantic import BaseModel
 from datetime import datetime
 
@@ -16,3 +16,7 @@ class Employee(BaseModel):
     level_date:datetime
     leader_position:Optional[str]=None
     contract_state:str
+
+class EmployeeDataSet(BaseModel):
+
+    dataSet : Dict = {}

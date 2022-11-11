@@ -22,10 +22,13 @@ class TestCammand(unittest.TestCase):
         aset = appointment.AppointmentSet(data_set=self.raw_appionment)
 
         e = employee.Employee(**self.raw_employee)
-        self.assertEqual(e.department, '입사팀')
+        es = employee.EmployeeDataSet()
+        es.dataSet[e.id_]=e
 
-        e_ = command.MoveCommand().execute(employee=e, appointment=aset.data_set[1])
-        self.assertEqual(e_.department, '이동팀')
+        # self.assertEqual(e.department, '입사팀')
+
+        # e_ = command.MoveCommand().execute(employee=e, appointment=aset.data_set[1])
+        # self.assertEqual(e_.department, '이동팀')
 
 if __name__ == '__main__':
     unittest.main()

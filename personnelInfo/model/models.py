@@ -62,3 +62,25 @@ class AppointmentModel:
         prc.add(p4)
         prc.add(p5)
         return prc
+
+class AppointmentModel_v2:
+
+    def get_model(self):
+        return SloadNProcessingModel(ILoader=self.get_loader(), IProcessing=self.get_processing())
+
+    def get_loader(self):
+        file_path = config.main_path.joinpath('4. 직원발령정보_22.11.11.csv')
+        return loader.Loader(file_path=file_path)
+
+    def get_processing(self):
+        prc = processing.Composit()
+        p1 = processing.Sort(cols=['사번', '발령일'])
+        p2 = processing.Rename(cols=['name', 'id_', 'appointmentDate', 'appointmentName', 'department', 'workDepartment','position', 'level', 'leader', 'contractKind', 'appointmentDetail', 'reference'])
+        p3 = processing.ApplyDatetime(cols=['appointmentDate'])
+        p4 = processing.ApplyString(cols=['id_'])
+
+        prc.add(p1)
+        prc.add(p2)
+        prc.add(p3)
+        prc.add(p4)
+        return prc

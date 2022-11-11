@@ -12,6 +12,6 @@ class Command(Protocol):
 
 class MoveCommand:
 
-    def execute(self, employee, appointment):
-        employee.department = appointment.ap_department
+    def execute(self, employeeDataSet, appointment):
+        employeeDataSet.dataSet.department = appointment.ap_department
         return employee
