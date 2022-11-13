@@ -5,14 +5,14 @@ from personnelInfo.model import models
 from personnelInfo.db import connect
 from pydantic import BaseModel, validator
 from Isql_v2 import sql
-from datetime import datetime
+from datetime import datetime, date
 import pandas as pd
 from typing import Optional
 
 class AppointmentModel(BaseModel):
     name : Optional[str]
     id_ : Optional[str]
-    appointmentDate : Optional[datetime]
+    appointmentDate : Optional[date]
     appointmentName : Optional[str]
     department : Optional[str]
     workDepartment : Optional[str]
@@ -72,7 +72,7 @@ class DumpData:
         print(f'raw : \n {rawdataset[:2]}')
         dataset = [AppointmentModel(**data) for data in rawdataset]
         print(f'model : \n {dataset[:2]}')
-        sql_ = sql.InsertSql(model=AppointmentModel).get_dump(dataset=dataset)
+        sql_ = sql.InsertSql(model=AppointmentModel).get_dump(dataset=dataset, dbtype='sqlite')
         self.cur.execute(sql_)
         self.db.commit()
 

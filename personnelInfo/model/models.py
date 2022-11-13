@@ -100,3 +100,19 @@ class DepartmentInfo:
 
         prc.add(p1)
         return prc
+
+class LevelInfo:
+
+    def get_model(self):
+        return SloadNProcessingModel(ILoader=self.get_loader(), IProcessing=self.get_processing())
+
+    def get_loader(self):
+        file_path = config.main_path.joinpath('10. 직급정보.csv')
+        return loader.Loader(file_path=file_path)
+
+    def get_processing(self):
+        prc = processing.Composit()
+        p1 = processing.ApplyDatetime(cols=['start', 'end'])
+
+        prc.add(p1)
+        return prc

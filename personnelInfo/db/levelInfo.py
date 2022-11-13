@@ -9,13 +9,11 @@ from datetime import datetime, date
 import pandas as pd
 from typing import Optional
 
-class DepartmentInfo(BaseModel):
+class LevelInfo(BaseModel):
     start : Optional[date]
     end : Optional[date]
-    devision : Optional[str]
-    department : Optional[str]
-    department_order : int
-
+    level : Optional[str]
+    level_id : Optional[int]
 
     @validator('start', 'end', pre=True)
     def timestamp_to_datetime(cls, v):
@@ -31,12 +29,11 @@ class CreateTable:
         self.cur = self.db.cursor()
 
     def execute(self):
-        sql_ = sql.CreateSql(model=DepartmentInfo).get_create(
+        sql_ = sql.CreateSql(model=LevelInfo).get_create(
             start = 'date',
             end = 'date',
-            devision = 'text',
-            department = 'text',
-            department_order = 'integer',
+            level = 'text',
+            level_id = 'integer'
         )
         self.cur.execute(sql_)
         self.db.commit()
@@ -48,12 +45,12 @@ class DumpData:
         self.cur = self.db.cursor()
 
     def execute(self):
-        df = models.DepartmentInfo().get_model().get_data()
+        df = models.LevelInfo().get_model().get_data()
         rawdataset = df.to_dict(orient='records')
         print(f'raw : \n {rawdataset[:2]}')
-        dataset = [DepartmentInfo(**data) for data in rawdataset]
+        dataset = [LevelInfo(**data) for data in rawdataset]
         print(f'model : \n {dataset[:2]}')
-        sql_ = sql.InsertSql(model=DepartmentInfo).get_dump(dataset=dataset)
+        sql_ = sql.InsertSql(model=LevelInfo).get_dump(dataset=dataset)
         self.cur.execute(sql_)
         self.db.commit()
 
