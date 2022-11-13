@@ -69,7 +69,7 @@ class AppointmentModel_v2:
         return SloadNProcessingModel(ILoader=self.get_loader(), IProcessing=self.get_processing())
 
     def get_loader(self):
-        file_path = config.main_path.joinpath('4. 직원발령정보_22.11.11.csv')
+        file_path = config.main_path.joinpath('4. 직원발령정보_22.11.11_최신.csv')
         return loader.Loader(file_path=file_path)
 
     def get_processing(self):
@@ -83,4 +83,20 @@ class AppointmentModel_v2:
         prc.add(p2)
         prc.add(p3)
         prc.add(p4)
+        return prc
+
+class DepartmentInfo:
+
+    def get_model(self):
+        return SloadNProcessingModel(ILoader=self.get_loader(), IProcessing=self.get_processing())
+
+    def get_loader(self):
+        file_path = config.main_path.joinpath('11. 직제정보.csv')
+        return loader.Loader(file_path=file_path)
+
+    def get_processing(self):
+        prc = processing.Composit()
+        p1 = processing.ApplyDatetime(cols=['start', 'end'])
+
+        prc.add(p1)
         return prc
